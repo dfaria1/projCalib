@@ -22,9 +22,9 @@ export default () =>{
         setCarregando(true)
         if(campoEmail && campoSenha) {//verifica se existe o campoEmail e o campoSenha
             let json = await Api.signIn(campoEmail, campoSenha)
-            if (json.token){
-                await AsyncStorage.setItem('token', json.token) //salva o token do usuário
-                let usuario = await Api.checkToken(json.token)
+            if (json.access_token){
+                await AsyncStorage.setItem('token', json.access_token) //salva o token do usuário
+                let usuario = await Api.checkToken(json.access_token)
                 await AsyncStorage.setItem('usuario', JSON.stringify(usuario)) //armazena no dispositivo as informações do usuário que fez o login
                 alert('Menu')
             } else {
