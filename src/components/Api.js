@@ -1,4 +1,4 @@
-//cSpell:Ignore usuario
+//cSpell:Ignore usuario, usuarios
 import AsyncStorage from '@react-native-community/async-storage'
 
 const BASE_API = 'http://localhost:4000'
@@ -20,7 +20,7 @@ export default {
     },
 
 signIn: async(email, senha) => {
-        const req = await fetch(`${BASE_API}/usuarios/login`, {      //realizamos uma requisição na BASE_API no endereço /usuario/login
+        const req = await fetch(`${BASE_API}/usuarios/login`, {     //realizamos uma requisição na BASE_API no endereço /usuario/login
             crossDomain: true,                                      //autorizar que o navegador utilize dois domínios (frontend e backend)
             method: 'POST',                                         //enviar dados via POST
             headers: {                                              //
