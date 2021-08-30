@@ -21,11 +21,18 @@ export default() => {
                 const dadosToken = ['token', token]                     //Salvar os dados do token
                 const dadosUsuario = ['usuario', JSON.stringify(res)]   //Salvar os dados do usuário
                 await AsyncStorage.multiSet([dadosToken, dadosUsuario]) //Armazena no dispositivo do usuário as informações do token e do usuário
-                alert('Direcionado para o Menu')
-                //navigation.navigate('SignIn') //coloquei essa linha pois meu navegador estava com um token
+                navigation.reset({
+                    routes: [{name: 'MainTab'}]
+                })
             } else {
+                //TEMPORARIO IR PARA O MAINTAB, DEPOIS DEVEMOS REMOVER E VERIFICAR PORQUE QUANDO RECARREGAMOS O TOKEN SE TORNA INVÁLIDO
+                navigation.reset({
+                    routes: [{name: 'MainTab'}]
+                })
+
                 //Caso o token exista, mas seja inválido
                 navigation.navigate('SignIn')
+
             }
         } else {
             //Caso o token não exista, o usuário deve ser encaminhado para a tela de Login

@@ -8,6 +8,7 @@ import { Container,
          LoadingIcon
          } from './styles'
 import AsyncStorage from '@react-native-community/async-storage'
+import { useNavigation } from '@react-navigation/native'
 
 import SignInput from '../../components/SignInput' 
 import Weight from '../../components/icons/Weight'
@@ -17,6 +18,7 @@ export default () =>{
     const [campoEmail, setCampoEmail] = useState('') //inicializando a variável campoEmail vazia
     const [campoSenha, setCampoSenha] = useState('') //inicializando a variável campoSenha vazia
     const [carregando, setCarregando] = useState(false) //inicializa o ícone "carregando" com status falso e será ativado quando o usuário clicar no botão de login
+    const navigation = useNavigation() //Para navegar entre as diferentes telas
 
     const validaLogin = async() => {
         setCarregando(true)
@@ -26,7 +28,9 @@ export default () =>{
                 await AsyncStorage.setItem('token', json.access_token) //salva o token do usuário
                 let usuario = await Api.checkToken(json.access_token)
                 await AsyncStorage.setItem('usuario', JSON.stringify(usuario)) //armazena no dispositivo as informações do usuário que fez o login
-                alert('Menu')
+                navigation.reset({
+                    routes: [{name: 'MainTab'}]
+                })
             } else {
                 let erro = json.errors ? json.errors[0].msg: '' //caso aconteça um ou mais erros, traga apenas o primeiro erro
                 alert(`Não foi possível efetuar o login: ${erro}`)

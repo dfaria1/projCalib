@@ -38,4 +38,5 @@ export default ( props ) => { //Este export default recebe propriedade (props)
         />
     </InputArea>
     )
+    
 }
