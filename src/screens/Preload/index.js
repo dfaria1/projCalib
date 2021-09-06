@@ -25,11 +25,6 @@ export default() => {
                     routes: [{name: 'MainTab'}]
                 })
             } else {
-                //TEMPORARIO IR PARA O MAINTAB, DEPOIS DEVEMOS REMOVER E VERIFICAR PORQUE QUANDO RECARREGAMOS O TOKEN SE TORNA INVÁLIDO
-                navigation.reset({
-                    routes: [{name: 'MainTab'}]
-                })
-
                 //Caso o token exista, mas seja inválido
                 navigation.navigate('SignIn')
 
@@ -39,6 +34,7 @@ export default() => {
             navigation.navigate('SignIn')
         }
     }
+
     useEffect(() => {
         checkToken()
     }, []) //A função useEffect é executada automaticamente sempre que a tela é carregada.

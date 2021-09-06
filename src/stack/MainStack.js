@@ -5,6 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Preload from '../screens/Preload'
 import SignIn from '../screens/SignIn'
 import MainTab from '../stack/MainTab'
+import Client from '../screens/Client'
+import Equipments from '../screens/Equipments'
+import editEquipment from '../screens/Equipments/editEquipment'
 
 const Stack = createStackNavigator()
 
@@ -19,6 +22,9 @@ export default () => {
             <Stack.Screen name="Preload" component={Preload} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="MainTab" component={MainTab} />
+            <Stack.Screen name="Client" component={Client} />
+            <Stack.Screen name="Equipments" component={Equipments} />
+            <Stack.Screen name="editEquipment" component={editEquipment} />
         </Stack.Navigator>
     )
 }

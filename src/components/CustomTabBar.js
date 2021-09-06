@@ -47,20 +47,20 @@ export default ({state, navigation}) => {
 
     return (
         <TabArea>
-            <TabItem onPress={() => navigateTo('Clients') }>
-                <FontAwesome5 name="building" size={24} color="#FFF"/>
+            <TabItem onPress={() => navigateTo('Home') }>
+                <FontAwesome5 style={{opacity: state.index === 0 ? 1 : 0.5}} name="building" size={24} color="#FFF"/>
             </TabItem>
             <TabItem onPress={() => navigateTo('Equipments') }>
-                <FontAwesome name="balance-scale" size={24} color="#FFF"/>
+                <FontAwesome style={{opacity: state.index === 1 ? 1 : 0.5}} name="balance-scale" size={24} color="#FFF"/>
             </TabItem>
             <TabItemCenter onPress={() => navigateTo('Calibrate') }>
-                <FontAwesome5 name="clipboard" size={24} color="#FF6F6F"/>
+                <FontAwesome5 style={{opacity: state.index === 2 ? 1 : 0.5}} name="clipboard" size={24} color="#FF6F6F"/>
             </TabItemCenter>
             <TabItem onPress={() => navigateTo('Standards') }>
-                <MaterialCommunityIcons name="weight-kilogram" size={32} color="#FFF"/>
+                <MaterialCommunityIcons style={{opacity: state.index === 3 ? 1 : 0.5}} name="weight-kilogram" size={32} color="#FFF"/>
             </TabItem>
             <TabItem onPress={() => navigateTo('Profile') }>
-                <AntDesign name="user" size={24} color="#FFF"/>
+                <AntDesign style={{opacity: state.index === 4 ? 1 : 0.5}} name="user" size={24} color="#FFF"/>
             </TabItem>
         </TabArea>
     )

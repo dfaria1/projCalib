@@ -4,7 +4,7 @@ import { SafeAreaView, Text } from 'react-native'
 export default () => {
     return(
     <SafeAreaView>
-        <Text>Tela de clientes</Text>
+        <Text>Tela de busca</Text>
     </SafeAreaView>
     )
 }
