@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons' //Os ícones podem ser visualizad
 
 const InputArea = styled.View`
 width: 100%;
-height: 60px;
+height: 30px;
 background-color: #FFD3D3;
 flex-direction: row;
 align-items: center;

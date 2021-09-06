@@ -31,11 +31,13 @@ transform: scale(0.3);
 export const InputArea = styled.View`
 padding: 15px;
 width: 100%;
+align-items:center;
 `
  //padding afasta um pouco o objeto das bordas
 
  export const CustomButton = styled.TouchableOpacity`
  height: 60px;
+ width: 70%;
  background-color: #A22D2D;
  border-radius: 20px;
  justify-content: center;
