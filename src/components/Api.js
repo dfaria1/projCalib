@@ -82,6 +82,22 @@ export default {
         const json = await req.json()                               //aguardar o resultado da requisição, reforçando que é em json
         return json                                                 //retorna o json
     },
+
+    editClient: async (_id, razaoSocial, cnpj, logradouro, numeroLogradouro, complemento, bairro, cep, cidade, uf, email, telefone, contato, fornecedor, inativo) => {
+        let token = await AsyncStorage.getItem('token')
+        const req = await fetch(`${BASE_API}/pessoas`, {     //realizamos uma requisição na BASE_API no endereço /usuario/login
+            crossDomain: true,                                      //autorizar que o navegador utilize dois domínios (frontend e backend)
+            method: 'PUT',                                         //enviar dados via POST
+            headers: {                                              //
+                Accept: 'application/json',                         //aceitar apenas dados do tipo json
+                'Content-Type': 'application/json',                  // conteúdo está no tipo json
+                'access-token': token
+            },
+            body: JSON.stringify({ _id, razaoSocial, cnpj, logradouro, numeroLogradouro, complemento, bairro, cep, cidade, uf, email, telefone, contato, fornecedor, inativo })  
+        })
+        const json = await req.json()                               //aguardar o resultado da requisição, reforçando que é em json
+        return json                                                 //retorna o json
+    },
     /*
                     "_id": JSON.stringify(_id),
             "nSerie": JSON.stringify(nSerie),

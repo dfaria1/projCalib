@@ -80,6 +80,7 @@ margin-left: 5%;
 
 export const ButtonArea = styled.View`
 flex-direction: row;
+margin-bottom: -150px;
 `
 
 export const LoadingIcon = styled.ActivityIndicator`
