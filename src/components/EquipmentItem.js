@@ -1,47 +1,51 @@
 //cSpell:Ignore razao,divisao
 
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components/native'
 import { useNavigation } from '@react-navigation/native'
 
+
 export default ({ data }) => {
 
-       const navigation = useNavigation()
-       const editEquipment = () => {                 //Quando o usuário clicar em um equipamento específico, irá para a página de detalhes deste equipamento.
-           navigation.navigate('editEquipment', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
-               _id: data._id,
-               marca: data.marca,
-               modelo: data.modelo,
-               nSerie: data.nSerie,
-               tipo: data.tipo,
-               capacidade: data.capacidade,
-               divisao: data.divisao,
-               cargaMin: data.cargaMin,
-               casasDecimais: data.casasDecimais,
-               unidade: data.unidade,
-               local: data.local,
-               tag: data.tag,
-           })
-       }
+
+    const navigation = useNavigation()
+    const editEquipment = () => {                 //Quando o usuário clicar em um equipamento específico, irá para a página de detalhes deste equipamento.
+        navigation.navigate('editEquipment', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
+            _id: data._id,
+            marca: data.marca,
+            modelo: data.modelo,
+            nSerie: data.nSerie,
+            tipo: data.tipo,
+            capacidade: data.capacidade,
+            divisao: data.divisao,
+            cargaMin: data.cargaMin,
+            casasDecimais: data.casasDecimais,
+            unidade: data.unidade,
+            local: data.local,
+            tag: data.tag,
+        })
+    }
 
     return (
-        <Area onPress={editEquipment}>
-            <InfoArea>
-                <EquipmentHeader>
-                    {`${data.marca ? data.marca : ''} ${data.modelo ? data.modelo : ''} ${data.tag ?' - ': ''}${data.tag ?data.tag: ''} ${data.nSerie ?' - Série ': ''}${data.nSerie ?data.nSerie: 'S/ Nº'}`}
-                </EquipmentHeader>
-                <EquipmentDetails>
-                    {`${data.capacidade ? 'Capacidade: ': ''}${data.capacidade ? data.capacidade: ''} ${data.divisao ? 'x  ': ''}${data.divisao ? data.divisao: ''} ${data.unidade ? data.unidade: ''}
-${data.local ? 'Aplicação: ': ''}${data.local ? data.local: ''}`}
-                </EquipmentDetails>
-                <EditButton>
-                    <EditButtonText>Alterar</EditButtonText>
-                </EditButton>
-            </InfoArea>
-        </Area>
-
+            <Area onPress={editEquipment}>
+                <InfoArea>
+                    <EquipmentHeader>
+                        {`${data.marca ? data.marca : ''} ${data.modelo ? data.modelo : ''} ${data.tag ? ' - ' : ''}${data.tag ? data.tag : ''} ${data.nSerie ? ' - Série ' : ''}${data.nSerie ? data.nSerie : 'S/ Nº'}`}
+                    </EquipmentHeader>
+                    <EquipmentDetails>
+                        {`${data.capacidade ? 'Capacidade: ' : ''}${data.capacidade ? data.capacidade : ''} ${data.divisao ? 'x  ' : ''}${data.divisao ? data.divisao : ''} ${data.unidade ? data.unidade : ''}
+${data.local ? 'Aplicação: ' : ''}${data.local ? data.local : ''}`}
+                    </EquipmentDetails>
+                    <EditButton>
+                        <EditButtonText>Alterar</EditButtonText>
+                    </EditButton>
+                </InfoArea>
+            </Area>
     )
 }
+
+const Container = styled.View`
+`
 
 const Area = styled.TouchableOpacity`
 background-color: #FFF;

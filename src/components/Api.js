@@ -67,6 +67,20 @@ export default {
         return json
     },
 
+    getStandards: async () => {                                       //retorna um array com todos os padrões
+        let token = await AsyncStorage.getItem('token')
+        const req = await fetch(`${BASE_API}/padroes`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'access-token': token
+            }
+        })
+        const json = await req.json()
+        return json
+    },
+
     editEquipment: async (_id, nSerie, marca, modelo, tipo, capacidade, divisao, cargaMin, casasDecimais, unidade, tag, local) => {
         let token = await AsyncStorage.getItem('token')
         const req = await fetch(`${BASE_API}/pessoas/equipamento`, {     //realizamos uma requisição na BASE_API no endereço /usuario/login
@@ -78,6 +92,38 @@ export default {
                 'access-token': token
             },
             body: JSON.stringify({ _id, nSerie, marca, modelo, tipo, capacidade, divisao, cargaMin, casasDecimais, unidade, tag, local })  
+        })
+        const json = await req.json()                               //aguardar o resultado da requisição, reforçando que é em json
+        return json                                                 //retorna o json
+    },
+
+    editClient: async (_id, razaoSocial, cnpj, logradouro, numeroLogradouro, complemento, bairro, cep, cidade, uf, email, telefone, contato, fornecedor, inativo) => {
+        let token = await AsyncStorage.getItem('token')
+        const req = await fetch(`${BASE_API}/pessoas`, {     //realizamos uma requisição na BASE_API no endereço /usuario/login
+            crossDomain: true,                                      //autorizar que o navegador utilize dois domínios (frontend e backend)
+            method: 'PUT',                                         //enviar dados via POST
+            headers: {                                              //
+                Accept: 'application/json',                         //aceitar apenas dados do tipo json
+                'Content-Type': 'application/json',                  // conteúdo está no tipo json
+                'access-token': token
+            },
+            body: JSON.stringify({ _id, razaoSocial, cnpj, logradouro, numeroLogradouro, complemento, bairro, cep, cidade, uf, email, telefone, contato, fornecedor, inativo })  
+        })
+        const json = await req.json()                               //aguardar o resultado da requisição, reforçando que é em json
+        return json                                                 //retorna o json
+    },
+
+    editStandard: async (_id, descricao, statusPadrao, tipo, identificacao, classeExatidao) => {
+        let token = await AsyncStorage.getItem('token')
+        const req = await fetch(`${BASE_API}/padroes`, {            //realizamos uma requisição na BASE_API no endereço /padroes
+            crossDomain: true,                                      //autorizar que o navegador utilize dois domínios (frontend e backend)
+            method: 'PUT',                                          //enviar dados via PUT
+            headers: {                                              //
+                Accept: 'application/json',                         //aceitar apenas dados do tipo json
+                'Content-Type': 'application/json',                 // conteúdo está no tipo json
+                'access-token': token
+            },
+            body: JSON.stringify({ _id, descricao, statusPadrao, tipo, identificacao, classeExatidao })  
         })
         const json = await req.json()                               //aguardar o resultado da requisição, reforçando que é em json
         return json                                                 //retorna o json

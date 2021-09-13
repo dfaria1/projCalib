@@ -20,7 +20,7 @@ import Api from '../../components/Api'
 
 export default () => {
 
-    const [carregando, setCarregando] = useState(false) //inicializa o ícone "carregando" com status falso e será ativado quando o usuário clicar no botão de login
+    const [carregando, setCarregando] = useState(false) //inicializa o ícone "carregando" com status falso e será ativado quando o usuário clicar no botão
     const navigation = useNavigation() //Para navegar entre as diferentes telas
     const route = useRoute()
 
@@ -180,7 +180,7 @@ export default () => {
                     <CustomButtonText>Alterar</CustomButtonText>
                     {carregando && <LoadingIcon size="small" color="#FFF" />}
                 </CustomButton>
-                <CustomButton>
+                <CustomButton onPress={detailClient}>
                     <CustomButtonText>Cancelar</CustomButtonText>
                 </CustomButton>
             </ButtonArea>

@@ -8,6 +8,8 @@ import MainTab from '../stack/MainTab'
 import Client from '../screens/Client'
 import Equipments from '../screens/Equipments'
 import editEquipment from '../screens/Equipments/editEquipment'
+import editClient from '../screens/Client/editClient'
+import editStandard from '../screens/Standards/editStandard'
 
 const Stack = createStackNavigator()
 
@@ -25,6 +27,8 @@ export default () => {
             <Stack.Screen name="Client" component={Client} />
             <Stack.Screen name="Equipments" component={Equipments} />
             <Stack.Screen name="editEquipment" component={editEquipment} />
+            <Stack.Screen name="editClient" component={editClient} />
+            <Stack.Screen name="editStandard" component={editStandard} />
         </Stack.Navigator>
     )
 }
