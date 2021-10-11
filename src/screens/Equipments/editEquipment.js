@@ -46,6 +46,23 @@ export default () => {
         })
     }
 
+    const beginCalibration = () => {                    //Quando o usuário clicar em um cliente específico, irá para a página com os detalhes deste cliente.
+        navigation.navigate('Calibrate', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
+            _id: campoID,
+            marca: campoMarca,
+            modelo: campoModelo,
+            nSerie: campoNSerie,
+            tipo: campoTipo,
+            capacidade: campoCapacidade,
+            divisao: campoDivisao,
+            cargaMin: campoCargaMin,
+            casasDecimais: campoCasasDecimais,
+            unidade: campoUnidade,
+            local: campoLocal,
+            tag: campoTag,
+        })
+    }
+
     const [campoID, setCampoID] = useState(equipmentInfo._id)                                   //inicializando a variável campoID com o id do equipamento trazido pela rota
     const [campoNSerie, setCampoNSerie] = useState(equipmentInfo.nSerie)                        //inicializando a variável campoNSerie com o número de série do equipamento trazido pela rota
     const [campoMarca, setCampoMarca] = useState(equipmentInfo.marca)                           //inicializando a variável campoMarca com a marca do equipamento trazido pela rota
@@ -180,8 +197,11 @@ export default () => {
                     <CustomButtonText>Alterar</CustomButtonText>
                     {carregando && <LoadingIcon size="small" color="#FFF" />}
                 </CustomButton>
+                <CustomButton onPress={beginCalibration}>
+                    <CustomButtonText>Calibrar</CustomButtonText>
+                </CustomButton>
                 <CustomButton onPress={detailClient}>
-                    <CustomButtonText>Cancelar</CustomButtonText>
+                    <CustomButtonText>Voltar</CustomButtonText>
                 </CustomButton>
             </ButtonArea>
         </Container>

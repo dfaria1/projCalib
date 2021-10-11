@@ -2,6 +2,10 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
+export const Picker = styled.Picker`
+width: 80%;
+align-self:center;
+`
 export const Container = styled.SafeAreaView`
 background-color: #FFF;
 flex: 1;
@@ -43,4 +47,22 @@ margin-bottom: 10px;
 
 export const LoadingIcon = styled.ActivityIndicator`
 margin-top: 50px;
+`
+
+export const InputArea = styled.View`
+width: 90%;
+height: 30px;
+background-color: #FFDFDF;
+flex-direction: column;
+border-radius: 20px;
+margin-left:5%;
+margin-bottom: 10px;
+`
+
+export const LabelText = styled.Text`
+font-size: 18px;
+font-weight:bold;
+color: #000;
+margin-bottom: 5px;
+margin-left: 5%;
 `

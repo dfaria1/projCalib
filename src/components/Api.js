@@ -81,6 +81,20 @@ export default {
         return json
     },
 
+    getStandard: async (id) => {                                      //retorna apenas as informações de um padrão específico
+        let token = await AsyncStorage.getItem('token')
+        const req = await fetch(`${BASE_API}/padroes/${id}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'access-token': token
+            }
+        })
+        const json = await req.json()
+        return json
+    },
+
     editEquipment: async (_id, nSerie, marca, modelo, tipo, capacidade, divisao, cargaMin, casasDecimais, unidade, tag, local) => {
         let token = await AsyncStorage.getItem('token')
         const req = await fetch(`${BASE_API}/pessoas/equipamento`, {     //realizamos uma requisição na BASE_API no endereço /usuario/login

@@ -56,7 +56,7 @@ flex: 1;
 
 export const CustomButton = styled.TouchableOpacity`
 height: 60px;
-width: 35%;
+width: 20%;
 background-color: #A22D2D;
 border-radius: 20px;
 align-items: center;
