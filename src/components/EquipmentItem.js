@@ -37,7 +37,7 @@ export default ({ data }) => {
 ${data.local ? 'Aplicação: ' : ''}${data.local ? data.local : ''}`}
                     </EquipmentDetails>
                     <EditButton>
-                        <EditButtonText>Alterar</EditButtonText>
+                        <EditButtonText>Detalhar</EditButtonText>
                     </EditButton>
                 </InfoArea>
             </Area>
