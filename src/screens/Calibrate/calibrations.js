@@ -1,41 +1,37 @@
 //cSpell:Ignore Ionicons
 import React, { useState, useEffect } from 'react'
 import { RefreshControl } from 'react-native'
-import { Container, Scroller, HeaderArea, HeaderTitle, ClientArea, SearchButton, AddButton, TopBarArea } from './styles'
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { Container, Scroller, HeaderArea, HeaderTitle, CalibrationArea, TopBarArea } from './styles'
 import { useNavigation } from '@react-navigation/native'
 import Api from '../../components/Api'
-import ClientItem from '../../components/ClientItem'
+import CalibrationItem from '../../components/CalibrationItem'
 
 export default () => {
     const navigation = useNavigation()
     const [loading, setLoading] = useState(false)
     const [refreshing, setRefreshing] = useState(false)
-    const [listClients, setListClients] = useState([])
+    const [listCalibrations, setListCalibrations] = useState([])
 
-    useEffect(() => {                       //carregando os dados dos clients quando o app é aberto
-        getClients()
+    useEffect(() => {                       //carregando os dados das calibrações quando a tela é aberta
+        getCalibrations()
+
         const willFocusSubscription = navigation.addListener('focus', () => {
-            getClients()
+            getCalibrations()
         })
         return willFocusSubscription
 
     }, [])
 
-    useEffect(() => {
-        getClients()
-    }, [navigation.addListener])
-
-    const getClients = async () => {
+    const getCalibrations = async () => {
         setLoading(true)
-        setListClients([])
-        let res = await Api.getClients()
-        setListClients(res)
+        setListCalibrations([])
+        let res = await Api.getCalibrations()
+        setListCalibrations(res)
         setLoading(false)
     }
 
     const onRefresh = () => {
-        getClients()
+        getCalibrations()
         setRefreshing(false)
 
     }
@@ -45,22 +41,19 @@ export default () => {
             <TopBarArea>
                 <HeaderArea>
                     <HeaderTitle>
-                        Lista de Clientes
+                        Lista de Calibrações
                     </HeaderTitle>
                 </HeaderArea>
             </TopBarArea>
             <Scroller refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-                <ClientArea>
-                    {listClients.map((item, key) => (
-                        <ClientItem key={key} data={item} />
+                <CalibrationArea>
+                    {listCalibrations.map((item, key) => (
+                        <CalibrationItem key={key} data={item} />
                     ))}
-                </ClientArea>
+                </CalibrationArea>
             </Scroller>
-            <AddButton>
-                <Ionicons name="add-sharp" size={40} color="#FF6F6F" onPress={() => navigation.navigate('addClient')} />
-            </AddButton>
         </Container>
     )
 }

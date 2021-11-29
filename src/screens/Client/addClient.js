@@ -1,48 +1,33 @@
 //cSpell:Ignore usuario,divisao,Ionicons
 import React, { useState } from 'react'
 import {
-    Container, InputArea, ButtonArea, CustomButton, CustomButtonText,
-    LoadingIcon, LabelText, HeaderArea, HeaderTitle, Scroller, PageBody,
-    TopBarArea, BackButton, BottomBarArea
+    Container, InputArea, ButtonArea, CustomButton, CustomButtonText, LoadingIcon,
+    LabelText, HeaderArea, HeaderTitle, Scroller, PageBody, TopBarArea, BackButton, BottomBarArea
 } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { Ionicons } from '@expo/vector-icons'
 import SignInput from '../../components/SignInput'
 import Api from '../../components/Api'
+import { Ionicons } from '@expo/vector-icons'
 
 export default () => {
 
     const [carregando, setCarregando] = useState(false) //inicializa o ícone "carregando" com status falso e será ativado quando o usuário clicar no botão
     const navigation = useNavigation() //Para navegar entre as diferentes telas
     const route = useRoute()
+    const [clientInfo, setClientInfo] = useState({})
 
-    const [clientInfo, setClientInfo] = useState({
-        _id: route.params._id,
-        razaoSocial: route.params.razaoSocial,
-        cnpj: route.params.cnpj,
-        logradouro: route.params.logradouro,
-        numeroLogradouro: route.params.numeroLogradouro,
-        complemento: route.params.complemento,
-        bairro: route.params.bairro,
-        cep: route.params.cep,
-        cidade: route.params.cidade,
-        uf: route.params.uf,
-        email: route.params.email,
-        telefone: route.params.telefone,
-        contato: route.params.contato,
-        fornecedor: route.params.fornecedor,
-        inativo: route.params.inativo,
-        avatar: route.params.avatar
-    })
-
-
-    const detailClient = () => {                    //Quando o usuário clicar em um cliente específico, irá para a página com os detalhes deste cliente.
-        navigation.navigate('Client', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
-            _id: campoID,
+    const backHome = () => {
+        navigation.navigate('Home', {
         })
     }
 
-    const [campoID, setCampoID] = useState(clientInfo._id)                                             //inicializando a variável campoID com o id do equipamento trazido pela rota
+    const detailClient = (id) => {                    //Quando o usuário clicar em um cliente específico, irá para a página com os detalhes deste cliente.
+        navigation.navigate('Client', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
+            _id: id,
+        })
+    }
+
+    const [campoID, setCampoID] = useState('')                                                         //inicializando a variável campoID com o id do equipamento trazido pela rota
     const [campoRazaoSocial, setCampoRazaoSocial] = useState(clientInfo.razaoSocial)                   //inicializando a variável campoRazaoSocial com a razão social trazida pela rota
     const [campoCnpj, setCampoCnpj] = useState(clientInfo.cnpj)                                        //inicializando a variável campoCnpj com o CNPJ trazido pela rota
     const [campoLogradouro, setCampoLogradouro] = useState(clientInfo.logradouro)                      //inicializando a variável campoLogradouro com o logradouro trazido pela rota
@@ -61,31 +46,30 @@ export default () => {
 
     const validaCliente = async () => {
         setCarregando(true)
-        setCampoID(clientInfo._id)
-        if (campoID && campoRazaoSocial) {                                //verifica se existe o campoID e o campoRazaoSocial
-            let json = await Api.editClient(clientInfo._id, campoRazaoSocial, campoCnpj, campoLogradouro, campoNumeroLogradouro, campoComplemento, campoBairro, campoCep, campoCidade, campoUf, campoEmail, campoTelefone, campoContato, campoFornecedor, campoInativo)
-            if (json.message) {
-                setCarregando(false)                                    //remove o ícone de "carregando"
-                detailClient()                                          //volta para a página daquele cliente
-                alert("Cliente alterado com sucesso!")
+        if (campoRazaoSocial && campoCnpj) {                                //verifica se existe o campoRazaoSocial e campoCnpj
+            let json = await Api.addClient(campoRazaoSocial, campoCnpj, campoLogradouro, campoNumeroLogradouro, campoComplemento, campoBairro, campoCep, campoCidade, campoUf, campoEmail, campoTelefone, campoContato, campoFornecedor, campoInativo)
+            if (!json.errors) {
+                setCarregando(false)                                        //remove o ícone de "carregando"
+                alert("Cliente cadastrado com sucesso!")
+                detailClient(json._id)
             } else {
-                let erro = json.errors ? json.errors[0].msg : ''         //caso aconteça um ou mais erros, traga apenas o primeiro erro
-                alert(`Não foi possível realizar a alteração: ${erro}`)
+                let erro = json.errors ? json.errors[0].msg : ''            //caso aconteça um ou mais erros, traga apenas o primeiro erro
+                alert(`Não foi possível realizar o cadastro: ${erro}`)
             }
         } else {
-            //alert ('Preencha pelo menos a capacidade máxima!')
-            alert(`Campos necessários: campoID ${campoID}, campoCapacidade ${campoRazaoSocial}, equipmentInfo._id ${clientInfo._id}`)
+            alert(`Campos necessários: Razão Social e CNPJ`)
         }
-
     }
 
     return (
         <Container>
             <TopBarArea>
                 <HeaderArea>
-                    <HeaderTitle>Alterar dados do cliente</HeaderTitle>
+                    <HeaderTitle>
+                        Novo Cliente
+                    </HeaderTitle>
                 </HeaderArea>
-                <BackButton onPress={detailClient}>
+                <BackButton onPress={backHome}>
                     <Ionicons name="chevron-back-sharp" size={40} color="#A22D2D" />
                 </BackButton>
             </TopBarArea>
@@ -206,10 +190,10 @@ export default () => {
                     </InputArea>
                     <ButtonArea>
                         <CustomButton onPress={validaCliente}>
-                            <CustomButtonText>Alterar</CustomButtonText>
+                            <CustomButtonText>Inserir</CustomButtonText>
                             {carregando && <LoadingIcon size="small" color="#FFF" />}
                         </CustomButton>
-                        <CustomButton onPress={detailClient}>
+                        <CustomButton onPress={backHome}>
                             <CustomButtonText>Cancelar</CustomButtonText>
                         </CustomButton>
                     </ButtonArea>

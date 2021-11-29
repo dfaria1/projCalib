@@ -27,20 +27,21 @@ export default ({ data }) => {
     }
 
     return (
-            <Area onPress={editEquipment}>
-                <InfoArea>
-                    <EquipmentHeader>
-                        {`${data.marca ? data.marca : ''} ${data.modelo ? data.modelo : ''} ${data.tag ? ' - ' : ''}${data.tag ? data.tag : ''} ${data.nSerie ? ' - Série ' : ''}${data.nSerie ? data.nSerie : 'S/ Nº'}`}
-                    </EquipmentHeader>
-                    <EquipmentDetails>
-                        {`${data.capacidade ? 'Capacidade: ' : ''}${data.capacidade ? data.capacidade : ''} ${data.divisao ? 'x  ' : ''}${data.divisao ? data.divisao : ''} ${data.unidade ? data.unidade : ''}
+        <Area onPress={editEquipment}>
+            <InfoArea>
+                <EquipmentHeader>
+                    {`${data.marca ? data.marca : ''} ${data.modelo ? data.modelo : ''} ${data.tag ? ' - ' : ''}${data.tag ? data.tag : ''}
+${data.nSerie ? 'Série: ' : ''}${data.nSerie ? data.nSerie : 'S/ Nº'}`}
+                </EquipmentHeader>
+                <EquipmentDetails>
+                    {`${data.capacidade ? 'Capacidade: ' : ''}${data.capacidade ? data.capacidade : ''} ${data.divisao ? 'x  ' : ''}${data.divisao ? data.divisao : ''} ${data.unidade ? data.unidade : ''}
 ${data.local ? 'Aplicação: ' : ''}${data.local ? data.local : ''}`}
-                    </EquipmentDetails>
-                    <EditButton>
-                        <EditButtonText>Detalhar</EditButtonText>
-                    </EditButton>
-                </InfoArea>
-            </Area>
+                </EquipmentDetails>
+                <EditButton>
+                    <EditButtonText>Detalhar</EditButtonText>
+                </EditButton>
+            </InfoArea>
+        </Area>
     )
 }
 
@@ -50,7 +51,7 @@ const Container = styled.View`
 const Area = styled.TouchableOpacity`
 background-color: #FFF;
 border: 1px solid #FF6F6F;
-margin-bottom: 20px;
+margin-bottom: 5px;
 border-radius: 20px;
 padding: 10px;
 flex-direction: row;
@@ -65,7 +66,7 @@ border-radius: 20px;
 const InfoArea = styled.View`
 margin-top: 0px;
 margin-left: 10px;
-justify-content: space-space-between;
+justify-content: space-between;
 `
 
 const UserName = styled.Text`

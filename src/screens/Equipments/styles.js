@@ -10,25 +10,33 @@ justify-content: center;
 export const Scroller = styled.ScrollView`
 flex: 1;
 padding: 5px;
-width: 95%;
+width: 100%;
+margin-top:0px;
+`
+export const PageBody = styled.View`
+background-color: #FFDFDF;
+padding: 5px;
+border-radius: 30px;
+margin-bottom: 20px;
 `
 
 export const HeaderArea = styled.View`
+flex-direction: row;
 align-items: center;
+width:100%;
 `
 
 export const HeaderTitle = styled.Text`
 width: 100%;
 font-size: 20px;
-color: #A22D2D;
+color: #FFF;
 font-weight: bold;
-margin-top: 20px;
-margin-left:5%;
+margin-left: 20%;
 `
 
 export const EquipmentArea = styled.View`
-margin-top:30px;
-margin-bottom: 30px;
+margin-top:20px;
+margin-bottom: 10px;
 flex:0;
 `
 
@@ -46,6 +54,7 @@ border-radius: 20px;
 margin-left:5%;
 margin-bottom: 10px;
 `
+
 export const Input = styled.TextInput`
 font-size: 20px;
 color: #A22D2D;
@@ -56,18 +65,41 @@ flex: 1;
 
 export const CustomButton = styled.TouchableOpacity`
 height: 60px;
-width: 20%;
+width: 45%;
 background-color: #A22D2D;
 border-radius: 20px;
 align-items: center;
 justify-content: center;
-margin: 7.5%;
+margin: 2.5%;
+margin-top: 10px;
+`
+
+export const CustomButtonAdd = styled.TouchableOpacity`
+height: 60px;
+width: 45%;
+background-color: #A22D2D;
+border-radius: 20px;
+align-items: center;
+justify-content: center;
+margin: 2.5%;
 margin-top: 10px;
 `
 
 export const CustomButtonText = styled.Text`
 font-size: 18px;
 color: #FFF;
+`
+
+export const BackButton = styled.TouchableOpacity`
+position:absolute;
+top: 1%;
+left: 1%;
+width: 60px;
+height: 60px;
+border-radius:100px;
+justify-content: center;
+align-items: center;
+z-index: 1;
 `
 
 export const LabelText = styled.Text`
@@ -80,7 +112,6 @@ margin-left: 5%;
 
 export const ButtonArea = styled.View`
 flex-direction: row;
-margin-bottom: -150px;
 `
 
 export const LoadingIcon = styled.ActivityIndicator`

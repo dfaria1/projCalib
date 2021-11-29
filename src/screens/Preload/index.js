@@ -2,8 +2,8 @@
 import React, { useEffect } from 'react'
 import { Container, Title, LoadingIcon, Logo } from './styles'
 import { useNavigation } from '@react-navigation/native'
-import AsyncStorage from '@react-native-community/async-storage'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
+//import AsyncStorage from 'react-native'
 
 // Utilizar o link para converter o SVG em um componente React Native
 // https://react-svgr.com/playground/?expandProps=none&native=true

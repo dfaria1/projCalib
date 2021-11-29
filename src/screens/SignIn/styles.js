@@ -9,8 +9,7 @@ import styled from 'styled-components/native'
 export const Container = styled.SafeAreaView`
     background-color: #FF6F6F;
     flex: 1;
-    justify-content: center;
-    align-items: center;
+    height: 100%;
 `
 // background-color: cor do plano de fundo
 // flex: um elemento por vez na interface
@@ -26,12 +25,16 @@ color: #FFF;
 
 export const Logo = styled.View`
 transform: scale(0.3);
+margin-top:-40%;
+align-items: center;
 `
 //transform: scale; reduz a escala do logo, para não ficar muito grande na tela de login
 export const InputArea = styled.View`
 padding: 15px;
 width: 100%;
 align-items:center;
+position: absolute;
+bottom: 0%;
 `
  //padding afasta um pouco o objeto das bordas
 

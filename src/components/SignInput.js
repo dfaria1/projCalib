@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons' //Os ícones podem ser visualizad
 const InputArea = styled.View`
 width: 100%;
 height: 30px;
-background-color: #FFD3D3;
+background-color: #FFF;
 flex-direction: row;
 align-items: center;
 border-radius: 20px;
@@ -17,8 +17,8 @@ margin-bottom: 10px;
 
 const Input = styled.TextInput`
 font-size: 20px;
-color: #A22D2D;
-margin-left: 10px;
+color: #000;
+margin-left: 0px;
 padding-bottom:3px;
 flex: 1;
 `
