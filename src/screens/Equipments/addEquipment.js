@@ -1,9 +1,8 @@
 //cSpell:Ignore usuario,divisao,Ionicons
 import React, { useState } from 'react'
 import {
-    Container, InputArea, ButtonArea, CustomButton, CustomButtonText,
-    LoadingIcon, LabelText, HeaderArea, HeaderTitle, Scroller,
-    PageBody, BackButton
+    Container, InputArea, ButtonArea, CustomButton, CustomButtonAdd, CustomButtonText, LoadingIcon,
+    LabelText, HeaderArea, HeaderTitle, Scroller, PageBody, BackButton
 } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -17,6 +16,7 @@ export default () => {
     const navigation = useNavigation() //Para navegar entre as diferentes telas
     const route = useRoute()
 
+    /*
     const [equipmentInfo, setEquipmentInfo] = useState({
         _id: route.params._id,
         marca: route.params.marca,
@@ -31,32 +31,18 @@ export default () => {
         local: route.params.local,
         tag: route.params.tag
     })
+*/
 
+    const [equipmentInfo, setEquipmentInfo] = useState({})
 
     const detailClient = () => {                    //Quando o usuário clicar em um cliente específico, irá para a página com os detalhes deste cliente.
         navigation.navigate('Client', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
-            _id: equipmentInfo._id,
+            _id: campoIDCliente._id,
         })
     }
 
-    const beginCalibration = () => {                    //Quando o usuário clicar em um cliente específico, irá para a página com os detalhes deste cliente.
-        navigation.navigate('Calibrate', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
-            _id: campoID,
-            marca: campoMarca,
-            modelo: campoModelo,
-            nSerie: campoNSerie,
-            tipo: campoTipo,
-            capacidade: campoCapacidade,
-            divisao: campoDivisao,
-            cargaMin: campoCargaMin,
-            casasDecimais: campoCasasDecimais,
-            unidade: campoUnidade,
-            local: campoLocal,
-            tag: campoTag,
-        })
-    }
+    const [campoIDCliente, setCampoIDCliente] = useState({ _id: route.params._id })                      //inicializando a variável campoID com o id do cliente trazido pela rota
 
-    const [campoID, setCampoID] = useState(equipmentInfo._id)                                   //inicializando a variável campoID com o id do equipamento trazido pela rota
     const [campoNSerie, setCampoNSerie] = useState(equipmentInfo.nSerie)                        //inicializando a variável campoNSerie com o número de série do equipamento trazido pela rota
     const [campoMarca, setCampoMarca] = useState(equipmentInfo.marca)                           //inicializando a variável campoMarca com a marca do equipamento trazido pela rota
     const [campoModelo, setCampoModelo] = useState(equipmentInfo.modelo)                        //inicializando a variável campoModelo com o modelo do equipamento trazido pela rota
@@ -71,20 +57,19 @@ export default () => {
 
     const validaEquipamento = async () => {
         setCarregando(true)
-        setCampoID(equipmentInfo._id)
-        if (campoID && campoCapacidade) {                                //verifica se existe o campoID e o campoCapacidade
-            let json = await Api.editEquipment(equipmentInfo._id, campoNSerie, campoMarca, campoModelo, campoTipo, campoCapacidade, campoDivisao, campoCargaMin, campoCasasDecimais, campoUnidade, campoTag, campoLocal)
-            if (json.message) {
+        if (campoCapacidade) {                                //verifica se existe o campoID e o campoCapacidade
+            let json = await Api.addEquipment(campoIDCliente._id, campoNSerie, campoMarca, campoModelo, campoTipo, campoCapacidade, campoDivisao, campoCargaMin, campoCasasDecimais, campoUnidade, campoTag, campoLocal)
+            if (!json.erros) {
                 setCarregando(false)                                    //remove o ícone de "carregando"
                 detailClient()                                          //volta para a página daquele cliente
-                alert("Equipamento alterado com sucesso!")
+                alert("Equipamento cadastrado com sucesso!")
             } else {
                 let erro = json.errors ? json.errors[0].msg : ''         //caso aconteça um ou mais erros, traga apenas o primeiro erro
-                alert(`Não foi possível realizar a alteração: ${erro}`)
+                alert(`Não foi possível realizar o cadastro: ${erro}`)
             }
         } else {
             //alert ('Preencha pelo menos a capacidade máxima!')
-            alert(`Campos necessários: campoID ${campoID}, campoCapacidade ${campoCapacidade}, equipmentInfo._id ${equipmentInfo._id}`)
+            alert(`Campos necessários: Capacidade`)
         }
 
     }
@@ -94,7 +79,7 @@ export default () => {
             <TopBarArea>
                 <HeaderArea>
                     <HeaderTitle>
-                        Detalhes do Equipamento
+                        Cadastrar Equipamento
                     </HeaderTitle>
                 </HeaderArea>
                 <BackButton onPress={detailClient}>
@@ -193,13 +178,13 @@ export default () => {
                         />
                     </InputArea>
                     <ButtonArea>
-                        <CustomButton onPress={validaEquipamento}>
-                            <CustomButtonText>Alterar</CustomButtonText>
+                        <CustomButtonAdd onPress={validaEquipamento}>
+                            <CustomButtonText>Cadastrar</CustomButtonText>
                             {carregando && <LoadingIcon size="small" color="#FFF" />}
-                        </CustomButton>
-                        <CustomButton onPress={beginCalibration}>
-                            <CustomButtonText>Calibrar</CustomButtonText>
-                        </CustomButton>
+                        </CustomButtonAdd>
+                        <CustomButtonAdd onPress={detailClient}>
+                            <CustomButtonText>Cancelar</CustomButtonText>
+                        </CustomButtonAdd>
                     </ButtonArea>
                 </PageBody>
             </Scroller>

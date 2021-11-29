@@ -7,7 +7,8 @@ import { Container,
          CustomButtonText,
          LoadingIcon
          } from './styles'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+//import AsyncStorage from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import SignInput from '../../components/SignInput' 

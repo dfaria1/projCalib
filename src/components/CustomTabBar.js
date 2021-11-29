@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/native'
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+//import AsyncStorage from 'react-native'
 
 const TabArea = styled.View`
 height: 60px;
@@ -13,10 +14,10 @@ flex-direction: row;
 
 const TabItem = styled.TouchableOpacity`
 flex: 1;
-align-items: center;        //centraliza itens
-padding-top:18px;
-justify-content: center;    //centraliza textos
+align-items: center;
+justify-content: center;
 `
+
 const TabItemCenter = styled.TouchableOpacity`
 width: 70px;
 height: 70px;
@@ -50,12 +51,9 @@ export default ({state, navigation}) => {
             <TabItem onPress={() => navigateTo('Home') }>
                 <FontAwesome5 style={{opacity: state.index === 0 ? 1 : 0.5}} name="building" size={24} color="#FFF"/>
             </TabItem>
-            <TabItem onPress={() => navigateTo('Equipments') }>
-                <FontAwesome style={{opacity: state.index === 1 ? 1 : 0.5}} name="balance-scale" size={24} color="#FFF"/>
+            <TabItem onPress={() => navigateTo('calibrations') }>
+                <FontAwesome5 style={{opacity: state.index === 2 ? 1 : 0.5}} name="clipboard" size={24} color="#FFF"/>
             </TabItem>
-            <TabItemCenter onPress={() => navigateTo('Calibrate') }>
-                <FontAwesome5 style={{opacity: state.index === 2 ? 1 : 0.5}} name="clipboard" size={24} color="#FF6F6F"/>
-            </TabItemCenter>
             <TabItem onPress={() => navigateTo('Standards') }>
                 <MaterialCommunityIcons style={{opacity: state.index === 3 ? 1 : 0.5}} name="weight-kilogram" size={32} color="#FFF"/>
             </TabItem>

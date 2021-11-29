@@ -1,16 +1,18 @@
 //cSpell:ignore Umid, studentt, monocaudal, jstat, Ionicons
 
 import React, { useState, useEffect } from 'react'
-import { Alert, SafeAreaView, Text } from 'react-native'
+import { SafeAreaView, Text } from 'react-native'
 import {
-    LabelText, InputArea, Container, Scroller, PageBody,
-    HeaderTitle, HeaderArea, ButtonArea, CustomButton, CustomButtonText, BoxArea,
-    TopBarArea, BottomBarArea, BackButton, EquipmentHeader, EquipmentDetail
+    LabelText, InputArea,
+    Container, Scroller, PageBody,
+    HeaderTitle, HeaderArea, ButtonArea,
+    CustomButton, CustomButtonText, BoxArea, TopBarArea, EquipmentHeader, EquipmentDetail, BottomBarArea
 } from './styles'
-import { Ionicons } from '@expo/vector-icons'
 import Api from './../../components/Api'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import SignInput from '../../components/SignInput'
+import { BackButton } from '../Client/styles'
+import { Ionicons } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
 
 
@@ -29,22 +31,52 @@ export default () => {
 
     const route = useRoute()
 
-    const [equipmentInfo, setEquipmentInfo] = useState({
-        _id: route.params._id,
-        marca: route.params.marca,
-        modelo: route.params.modelo,
-        nSerie: route.params.nSerie,
-        tipo: route.params.tipo,
-        capacidade: route.params.capacidade,
-        divisao: route.params.divisao,
-        cargaMin: route.params.cargaMin,
-        casasDecimais: route.params.casasDecimais,
-        unidade: route.params.unidade,
-        local: route.params.local,
-        tag: route.params.tag
+    const [calibrationInfo, setCalibrationInfo] = useState({
+        _id: route.params._id
     })
 
-    const [campoIDEquipamento, setCampoIDEquipamento] = useState(equipmentInfo._id)
+    const [equipmentInfo, setEquipmentInfo] = useState({
+
+    })
+
+    useEffect(() => {
+        const getCalibrationInfo = async () => {
+            let json = await Api.getCalibration(calibrationInfo._id)
+            if (json.errors) {
+                alert(json.errors)
+            } else {
+                setCalibrationInfo(json)
+                setCampoNCertificado(json.nCertificado)
+                setCampoTempInicial(json.tempInicial)
+                setCampoTempFinal(json.tempFinal)
+                setCampoUmidInicial(json.umidInicial)
+                setCampoUmidFinal(json.umidFinal)
+                setCampoPressInicial(json.pressInicial)
+                setCampoPressFinal(json.pressFinal)
+                setCampoExcentricidade1(json.excentricidade[0]["ponto1"])
+                setCampoExcentricidade2(json.excentricidade[0]["ponto2"])
+                setCampoExcentricidade3(json.excentricidade[0]["ponto3"])
+                setCampoExcentricidade4(json.excentricidade[0]["ponto4"])
+                setCampoExcentricidade5(json.excentricidade[0]["ponto5"])
+                setCampoExcentricidade6(json.excentricidade[0]["ponto6"])
+                setCampoLinearidade1({
+                    idPadrao: json.linearidade[0]["ponto1"].idPadrao,
+                    valorPadrao: json.linearidade[0]["ponto1"].valorPadrao,
+                    leitura: json.linearidade[0]["ponto1"].leitura,
+                    incertezaPadrao: json.linearidade[0]["ponto1"].incertezaPadrao,
+                    derivaPadrao: json.linearidade[0]["ponto1"].derivaPadrao,
+                    erroIndicacao: json.linearidade[0]["ponto1"].erroIndicacao,
+                    fatorK: json.linearidade[0]["ponto1"].fatorK,
+                    incertezaExpandida: json.linearidade[0]["ponto1"].incertezaExpandida
+
+                })
+                setCampoIDEquipamento(json.idEquipamento)
+            }
+        }
+        getCalibrationInfo()
+    }, [])
+
+    const [campoIDEquipamento, setCampoIDEquipamento] = useState('')
     const [campoNCertificado, setCampoNCertificado] = useState('')
     const [campoTempInicial, setCampoTempInicial] = useState('')
     const [campoTempFinal, setCampoTempFinal] = useState('')
@@ -52,6 +84,7 @@ export default () => {
     const [campoUmidFinal, setCampoUmidFinal] = useState('')
     const [campoPressInicial, setCampoPressInicial] = useState('')
     const [campoPressFinal, setCampoPressFinal] = useState('')
+
     const [campoExcentricidade1, setCampoExcentricidade1] = useState('')
     const [campoExcentricidade2, setCampoExcentricidade2] = useState('')
     const [campoExcentricidade3, setCampoExcentricidade3] = useState('')
@@ -59,21 +92,21 @@ export default () => {
     const [campoExcentricidade5, setCampoExcentricidade5] = useState('')
     const [campoExcentricidade6, setCampoExcentricidade6] = useState('')
     const [campoLinearidade1, setCampoLinearidade1] = useState({
-        idPadrao: "",
-        valorPadrao: "",
-        leitura: "",
-        incertezaPadrao: "",
-        derivaPadrao: "",
-        erroIndicacao: "",
-        fatorK: "",
-        incertezaExpandida: ""
+        idPadrao: '',
+        valorPadrao: '',
+        leitura: '',
+        incertezaPadrao: '',
+        derivaPadrao: '',
+        erroIndicacao: '',
+        fatorK: '',
+        incertezaExpandida: ''
     })
     const [campoLinearidade2, setCampoLinearidade2] = useState('')
     const [standard1Info, setStandard1Info] = useState('')
     const [standard2Info, setStandard2Info] = useState('')
 
-
     //Campos dentro dos arrays "Linearidade": idPadrao, valorPadrao, leitura, incertezaPadrao, derivaPadrao, erroIndicacao, fatorK, incertezaExpandida
+
 
     useEffect(() => {
         if (campoLinearidade1.idPadrao) {
@@ -90,6 +123,20 @@ export default () => {
             getStandard()
         }
     }, [campoLinearidade1.idPadrao])
+
+    useEffect(() => {
+        if (campoIDEquipamento) {
+            const getEquipment = async () => {
+                let json = await Api.getEquipment(campoIDEquipamento)
+                if (json.errors) {
+                    alert(json.errors)
+                } else {
+                    setEquipmentInfo(json[0].equipamentos)
+                }
+            }
+            getEquipment()
+        }
+    }, [campoIDEquipamento])
 
     useEffect(() => {
         if (campoTempFinal && campoPressFinal && standard1Info.calibracoes && campoLinearidade1.leitura) {
@@ -136,34 +183,6 @@ export default () => {
 
     const navigation = useNavigation() //Para navegar entre as diferentes telas
 
-    const editEquipment = () => {
-        navigation.navigate('editEquipment', {
-            _id: equipmentInfo._id,
-            marca: equipmentInfo.marca,
-            modelo: equipmentInfo.modelo,
-            nSerie: equipmentInfo.nSerie,
-            tipo: equipmentInfo.tipo,
-            capacidade: equipmentInfo.capacidade,
-            divisao: equipmentInfo.divisao,
-            cargaMin: equipmentInfo.cargaMin,
-            casasDecimais: equipmentInfo.casasDecimais,
-            unidade: equipmentInfo.unidade,
-            local: equipmentInfo.local,
-            tag: equipmentInfo.tag,
-        })
-    }
-
-    const detailClient = () => {                    //Quando o usuário clicar em um cliente específico, irá para a página com os detalhes deste cliente.
-        navigation.navigate('Client', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
-            _id: equipmentInfo._id,
-        })
-    }
-
-    const backHome = () => {
-        navigation.navigate('Home', {
-        })
-    }
-
     const finishCalibration = async () => {
         if (campoLinearidade1.idPadrao) {
             //setCarregando(true)
@@ -188,24 +207,22 @@ export default () => {
                     incertezaExpandida: campoLinearidade1.incertezaExpandida
                 }
             }
-
-            if (campoNCertificado && campoLinearidade1.idPadrao) {                                //verifica se existe o campoID e o campoCapacidade
-                let json = await Api.addCalibration(equipmentInfo._id, campoNCertificado, campoTempInicial, campoTempFinal, campoUmidInicial, campoUmidFinal,
+            if (campoNCertificado && campoLinearidade1.idPadrao) {                                          //verifica se existe o campoNCertificado
+                let json = await Api.editCalibration(calibrationInfo._id, equipmentInfo._id, campoNCertificado, campoTempInicial, campoTempFinal, campoUmidInicial, campoUmidFinal,
                     campoPressInicial, campoPressFinal, excentricidade, linearidade)
-                if (!json.erros) {
+                if (!json.errors) {
                     //setCarregando(false)                                    //remove o ícone de "carregando"
-                    editEquipment()                                         //volta para a página daquele equipamento
-                    alert("Calibração realizada com sucesso!")
+                    navigation.navigate('calibrations')                       //volta para a página de calibrações
+                    alert("Calibração alterada com sucesso!")
                 } else {
-                    let erro = json.errors ? json.errors[0].msg : ''         //caso aconteça um ou mais erros, traga apenas o primeiro erro
-                    alert(`Não foi possível realizar a calibração: ${erro}`)
+                    let erro = json.errors ? json.errors[0].message : ''          //caso aconteça um ou mais erros, traga apenas o primeiro erro
+                    alert(`Não foi possível alterar a calibração: ${erro}`)
                 }
             } else {
-                alert(`Campos necessários: Número do Certificado e Selecionar o Padrão`)
+                alert(`Campos necessários: Número do Certificado e Selecionar o Padrão!`)
             }
-
         } else {
-            alert('Selecione o padrão!')
+            alert("Selecione o padrão!")
         }
     }
 
@@ -214,10 +231,10 @@ export default () => {
             <TopBarArea>
                 <HeaderArea>
                     <HeaderTitle>
-                        Calibração
+                        Certificado {campoNCertificado}
                     </HeaderTitle>
                 </HeaderArea>
-                <BackButton onPress={backHome}>
+                <BackButton onPress={() => navigation.navigate('calibrations')}>
                     <Ionicons name="chevron-back-sharp" size={40} color="#A22D2D" />
                 </BackButton>
             </TopBarArea>
@@ -344,7 +361,7 @@ export default () => {
                                 <SignInput
                                     placeholder={campoLinearidade1.leitura}
                                     value={campoLinearidade1.leitura}
-                                    onChangeText={text => setCampoLinearidade1({"leitura": text})}
+                                    onChangeText={text => setCampoLinearidade1({ leitura: text })}
                                 />
                             </InputArea>
 
@@ -383,9 +400,9 @@ export default () => {
                     </SafeAreaView>
                     <ButtonArea>
                         <CustomButton onPress={finishCalibration}>
-                            <CustomButtonText>Finalizar</CustomButtonText>
+                            <CustomButtonText>Alterar</CustomButtonText>
                         </CustomButton>
-                        <CustomButton onPress={backHome}>
+                        <CustomButton onPress={() => navigation.navigate('calibrations')}>
                             <CustomButtonText>Cancelar</CustomButtonText>
                         </CustomButton>
                     </ButtonArea>

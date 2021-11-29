@@ -1,17 +1,20 @@
-//cSpell:Ignore razao
+//cSpell:Ignore razao, Ionicons
 
 import React, { useState, useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { AntDesign } from '@expo/vector-icons'
-import Swiper from 'react-native-swiper'
+import { Alert, Platform } from "react-native"
+import { Ionicons } from '@expo/vector-icons'
 import Api from '../../components/Api'
 import {
     Container, Scroller, PageBody, UserInfoArea,
-    UserAvatar, UserInfo, UserInfoName, LoadingIcon
+    UserAvatar, UserInfo, UserInfoName, LoadingIcon,
+    ButtonArea, CustomButton, CustomButtonText, CustomButtonRemove,
+    BackButton, TopBarArea, HeaderArea, HeaderTitle,
+    BottomBarArea
 } from './styles'
-import { ButtonArea, CustomButton, CustomButtonText } from './../Equipments/styles'
 import EquipmentItem from '../../components/EquipmentItem'
 import { EquipmentArea } from '../Equipments/styles'
+import { AddButton } from '../Home/styles'
 
 //Se der problema no react-native-swiper: ir em node-modules > react-native-swiper > index
 //comentar as duas linhas de module.exports e inserir:
@@ -40,11 +43,37 @@ export default () => {
             setLoading(false)
         }
         getClientInfo()
+
+        const willFocusSubscription = navigation.addListener('focus', () => {
+            getClientInfo()
+        })
+        return willFocusSubscription
+
     }, [])
 
     const backHome = () => {                    //Voltar para a tela inicial
         navigation.navigate('Home')
     }
+
+    const addEquipment = () => {
+        navigation.navigate('addEquipment', {
+            _id: clientInfo._id
+        })
+    }
+
+    const removeClient = async () => {
+        setCarregando(true)
+        let json = await Api.removeClient(clientInfo._id)
+        if (!json.errors) {
+            setCarregando(false)                                    //remove o ícone de "carregando"
+            backHome()                                              //volta para a página inicial
+            alert("Pessoa removida com sucesso!")
+        } else {
+            let erro = json.errors ? json.errors[0].msg : ''        //caso aconteça um ou mais erros, traga apenas o primeiro erro
+            alert(`Não foi possível remover o cadastro: ${erro}`)
+        }
+    }
+
 
     const editClient = () => {                 //Quando o usuário clicar em um equipamento específico, irá para a página de detalhes deste equipamento.
         navigation.navigate('editClient', {             //'Client' é a página do cliente e as informações subsequentes são enviadas para esta página para agilizar um "pré-carregamento"
@@ -67,8 +96,42 @@ export default () => {
         })
     }
 
+    const showConfirmDialog = () => {
+
+        if (Platform.OS === 'web') {
+            removeClient()
+        } else {
+            Alert.alert(
+                "Confirmar exclusão?",
+                "Você tem certeza que deseja excluir este cliente?",
+                [
+                    // Opção SIM
+                    {
+                        text: "Sim",
+                        onPress: () => {
+                            removeClient()
+                        },
+                    },
+                    // Opção NÃO
+                    // Não faz nada, apenas fecha a janela de diálogo
+                    {
+                        text: "Não",
+                    }
+                ]
+            )
+        }
+    }
+
     return (
         <Container>
+            <TopBarArea>
+                <HeaderArea>
+                    <HeaderTitle>Detalhes do Cliente</HeaderTitle>
+                </HeaderArea>
+                <BackButton onPress={backHome}>
+                    <Ionicons name="chevron-back-sharp" size={40} color="#A22D2D" />
+                </BackButton>
+            </TopBarArea>
             <Scroller>
                 <PageBody>
                     {loading && <LoadingIcon size="large" color="000" />}
@@ -76,16 +139,16 @@ export default () => {
                         <UserAvatar source={{ uri: clientInfo.avatar }}></UserAvatar>
                         <UserInfo>
                             <UserInfoName>{clientInfo.razaoSocial}</UserInfoName>
-                            {clientInfo.cnpj}
+                            <UserInfoName>{clientInfo.cnpj}</UserInfoName>
                         </UserInfo>
                     </UserInfoArea>
                     <ButtonArea>
                         <CustomButton onPress={editClient}>
-                            <CustomButtonText>Alterar dados do cliente</CustomButtonText>
+                            <CustomButtonText>Alterar Cadastro</CustomButtonText>
                             {carregando && <LoadingIcon size="small" color="#FFF" />}
                         </CustomButton>
-                        <CustomButton onPress={backHome}>
-                            <CustomButtonText>Voltar</CustomButtonText>
+                        <CustomButton onPress={showConfirmDialog}>
+                            <CustomButtonText>Excluir Cadastro</CustomButtonText>
                         </CustomButton>
                     </ButtonArea>
                     <EquipmentArea>
@@ -93,10 +156,14 @@ export default () => {
                             ? clientInfo.equipamentos.map(item => {
                                 return <EquipmentItem key={item._id} data={item}></EquipmentItem>;
                             })
-                            : "Não há equipamentos cadastrados para mostrar."}
+                            : <UserInfoName>Não há equipamentos cadastrados para mostrar.</UserInfoName>}
                     </EquipmentArea>
                 </PageBody>
             </Scroller>
+            <BottomBarArea />
+            <AddButton>
+                <Ionicons name="add-sharp" size={40} color="#FF6F6F" onPress={addEquipment} />
+            </AddButton>
         </Container>
     )
 }

@@ -3,10 +3,11 @@ import React, { useState } from 'react'
 import {
     Container, InputArea, ButtonArea, CustomButton, CustomButtonText,
     LoadingIcon, LabelText, HeaderArea, HeaderTitle, BackButton, TopBarArea,
-    Scroller, PageBody, BottomBarArea
+    BottomBarArea, Scroller, PageBody
 } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
+
 import SignInput from '../../components/SignInput'
 import Api from '../../components/Api'
 
@@ -25,16 +26,10 @@ export default () => {
     }
 
     const [standardInfo, setStandardInfo] = useState({
-        _id: route.params._id,
-        descricao: route.params.descricao,
-        statusPadrao: route.params.statusPadrao,
-        tipo: route.params.tipo,
-        identificacao: route.params.identificacao,
-        classeExatidao: route.params.classeExatidao,
-        calibracoes: route.params.calibracoes
+
     })
 
-    const [campoID, setCampoID] = useState(standardInfo._id)                                     //inicializando a variável campoID com o id do padrão trazido pela rota
+    const [campoID, setCampoID] = useState('')                                                   //inicializando a variável campoID com o id do padrão trazido pela rota
     const [campoDescricao, setCampoDescricao] = useState(standardInfo.descricao)                 //inicializando a variável campoDescricao com a descrição do padrão trazido pela rota
     const [campoStatusPadrao, setCampoStatusPadrao] = useState(standardInfo.statusPadrao)        //inicializando a variável campoStatusPadrao com o status (ativo/inativo) do padrão trazido pela rota
     const [campoTipo, setCampoTipo] = useState(standardInfo.tipo)                                //inicializando a variável campoTipo com o tipo do padrão trazido pela rota
@@ -45,10 +40,9 @@ export default () => {
 
     const checkStandard = async () => {
         setCarregando(true)
-        setCampoID(standardInfo._id)
-        if (campoID && campoTipo) {                                      //verifica se existe o campoID e o campoTipo
-            let json = await Api.editStandard(standardInfo._id, campoDescricao, campoStatusPadrao, campoTipo, campoIdentificacao, campoClasseExatidao)
-            if (json.message) {
+        if (campoDescricao) {                                           //verifica se existe o campoDescricao
+            let json = await Api.addStandard(campoDescricao, campoStatusPadrao, campoTipo, campoIdentificacao, campoClasseExatidao)
+            if (!json.errors) {
                 setCarregando(false)                                    //remove o ícone de "carregando"
                 detailStandard()                                        //volta para a lista de padrões
                 alert("Padrão alterado com sucesso!")
@@ -57,22 +51,9 @@ export default () => {
                 alert(`Não foi possível realizar a alteração: ${erro}`)
             }
         } else {
-            alert(`Campos necessários: campoID ${campoID}, campoTipo ${campoTipo}, standardInfo._id ${standardInfo._id}`)
+            alert(`Campos necessários: descrição do padrão ${campoDescricao}`)
         }
 
-    }
-
-    const removeStandard = async () => {
-        setCarregando(true)
-        let json = await Api.removeStandard(standardInfo._id)
-        if (!json.errors) {
-            setCarregando(false)                                          //remove o ícone de "carregando"
-            detailStandard()                                              //volta para a página de padrões
-            alert("Padrão inativado com sucesso!")
-        } else {
-            let erro = json.errors ? json.errors[0].msg : ''        //caso aconteça um ou mais erros, traga apenas o primeiro erro
-            alert(`Não foi possível inativar o padrão: ${erro}`)
-        }
     }
 
     return (
@@ -80,7 +61,7 @@ export default () => {
             <TopBarArea>
                 <HeaderArea>
                     <HeaderTitle>
-                        Alterar dados do padrão
+                        Adicionar novo padrão
                     </HeaderTitle>
                 </HeaderArea>
                 <BackButton onPress={detailStandard}>
@@ -132,11 +113,11 @@ export default () => {
                     </InputArea>
                     <ButtonArea>
                         <CustomButton onPress={checkStandard}>
-                            <CustomButtonText>Alterar</CustomButtonText>
+                            <CustomButtonText>Adicionar</CustomButtonText>
                             {carregando && <LoadingIcon size="small" color="#FFF" />}
                         </CustomButton>
-                        <CustomButton onPress={removeStandard}>
-                            <CustomButtonText>Excluir</CustomButtonText>
+                        <CustomButton onPress={detailStandard}>
+                            <CustomButtonText>Cancelar</CustomButtonText>
                         </CustomButton>
                     </ButtonArea>
                 </PageBody>

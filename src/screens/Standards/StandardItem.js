@@ -25,10 +25,7 @@ export default ({ data }) => {
                 {`${data.tipo} - ${data.identificacao}`}
                 </StandardName>
                 <StandardName>
-                    {`${data.classeExatidao ? [`Classe: ${data.classeExatidao}`] : ""} - ${data.descricao}`}
-                </StandardName>
-                <StandardName>
-                    {data.status}
+                    {`${data.classeExatidao ? [`Classe: ${data.classeExatidao}`] : ""} - ${data.descricao}       ${data.statusPadrao}`}
                 </StandardName>
                 <EditStandardButton>
                     <SeeProfileButtonText>Alterar</SeeProfileButtonText>
@@ -42,7 +39,7 @@ export default ({ data }) => {
 const Area = styled.TouchableOpacity`
 background-color: #FFF;
 border: 1px solid #FF6F6F;
-margin-bottom: 20px;
+margin-bottom: 5px;
 border-radius: 20px;
 padding: 10px;
 flex-direction: row;
@@ -51,7 +48,7 @@ flex-direction: row;
 const InfoArea = styled.View`
 margin-top: 0px;
 margin-left: 10px;
-justify-content: space-space-between;
+justify-content: space-between;
 `
 
 const StandardName = styled.Text`

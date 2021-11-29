@@ -9,12 +9,7 @@ flex: 1;
 export const Scroller = styled.ScrollView`
 flex: 1%;
 padding: 5px;
-width: 100%;
-`
-
-export const PageBody = styled.View`
-background-color: #FFDFDF;
-padding: 5px;
+width: 95%;
 `
 
 export const TopBarArea = styled.View`
@@ -23,15 +18,6 @@ align-items: center;
 width:100%;
 height:60px;
 background-color: #FF6F6F;
-`
-
-export const BottomBarArea = styled.View`
-flex-direction: row;
-align-items: center;
-width:100%;
-height:30px;
-background-color: #FF6F6F;
-margin-top: 10px;
 `
 
 export const HeaderArea = styled.View`
@@ -48,18 +34,13 @@ font-weight: bold;
 margin-left: 20%;
 `
 
-export const ClientArea = styled.View`
-margin-top: 5px;
-margin-bottom: 5px;
+export const UserArea = styled.View`
+margin-top:30px;
+margin-bottom: 30px;
 `
 
 export const LoadingIcon = styled.ActivityIndicator`
 margin-top: 50px;
-`
-
-export const CustomButtonText = styled.Text`
-font-size: 18px;
-color: #FFF;
 `
 
 export const InputArea = styled.View`
@@ -80,11 +61,20 @@ flex: 1;
 `
 
 export const LabelText = styled.Text`
-font-size: 18px;
+font-size: 20px;
 font-weight:bold;
 color: #000;
 margin-bottom: 5px;
 margin-left: 5%;
+`
+
+export const UserInfo = styled.Text`
+font-size: 16px;
+color: #000;
+margin-bottom: 5px;
+font-weight: normal;
+margin-left: 5%;
+margin-bottom: 5%;
 `
 
 export const SearchButton = styled.TouchableOpacity`
@@ -110,6 +100,14 @@ justify-content: center;
 margin-left: 2.5%;
 margin-right: 2.5%;
 margin-top: 10px;
+flex-direction: row;
+`
+
+export const CustomButtonText = styled.Text`
+font-size: 18px;
+color: #FFF;
+margin-left: 5px;
+margin-right: 5px;
 `
 
 export const CustomButtonRemove = styled.TouchableOpacity`

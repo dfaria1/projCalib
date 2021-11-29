@@ -14,19 +14,19 @@ export default ({ data }) => {
         })
     }
 
-    return (
+    return (!data.inativo &&
         <Area onPress={detailClient}>
         <Avatar source={{uri:data.avatar}} />
             <InfoArea>
                 <UserName>
                     {data.razaoSocial}
                 </UserName>
-                <UserName>
+                <UserDetails>
                     {`${data.logradouro}, ${data.numeroLogradouro}`}
-                </UserName>
-                <UserName>
+                </UserDetails>
+                <UserDetails>
                     {data.cidade}
-                </UserName>
+                </UserDetails>
                 <SeeProfileButton>
                     <SeeProfileButtonText>Detalhes</SeeProfileButtonText>
                 </SeeProfileButton>
@@ -39,7 +39,7 @@ export default ({ data }) => {
 const Area = styled.TouchableOpacity`
 background-color: #FFF;
 border: 1px solid #FF6F6F;
-margin-bottom: 20px;
+margin-bottom: 5px;
 border-radius: 20px;
 padding: 10px;
 flex-direction: row;
@@ -54,12 +54,16 @@ border-radius: 20px;
 const InfoArea = styled.View`
 margin-top: 0px;
 margin-left: 10px;
-justify-content: space-space-between;
+justify-content: space-between;
 `
 
 const UserName = styled.Text`
 font-size: 17px;
 font-weight: bold;
+`
+
+const UserDetails = styled.Text`
+font-size: 14px;
 `
 
 const SeeProfileButton = styled.View`
